@@ -6,11 +6,13 @@ import utils.preprocessing as pp
 
 import numpy as np
 
-custom_model = load_model('models/custom_model.h5')
+model = load_model('models/model.h5')
 
 def predict_image(image):
     
     features = pp.xception_bg(image)
     
-    prediction = custom_model.predict(features)
+    print(f"===================>{features.shape}")
+    
+    prediction = model.predict(features)
     return prediction[0][0]
