@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from PIL import Image
 from utils.predict import predict_image
 
-app = Falsk(__name__)
+app = Flask(__name__)
 
 @app.route('/predict', methods=['POST'])
 def predict():
