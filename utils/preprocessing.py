@@ -31,21 +31,25 @@ def sharpen_image(image):
 
 def read_img(img):
     #convert image to array
-    img = image.img_to_array(img)
-    return img
+    img2 = image.img_to_array(img)
+    return img2
 
 
-def xception_preprocess_input(img):
+def xception_preprocess_input(imgp):
     
-    img = read_img(img)
-    
+    imgq = image.img_to_array(imgp)
+    img = cv2.resize(imgq, (255, 255))
+    print(f" === img array shape: { img.shape }")
     #masking and segmentation
     image_segmented = segment_image(img)
+    print(f" === img segmented shape: { image_segmented.shape }")
     
     #sharpen
     image_sharpen = sharpen_image(image_segmented)
+    print(f" === img sharpen shape: { image_sharpen.shape }")
     
     x = xception.preprocess_input(np.expand_dims(image_sharpen.copy(), axis=0))
+    print(f" === x shape: { x.shape }")
     return x
     
 def xception_bg(img):
@@ -53,6 +57,7 @@ def xception_bg(img):
     
     xception_bf = xception.Xception(weights='imagenet', include_top=False, pooling='avg')
     bf_train_val = xception_bf.predict(x, batch_size=1, verbose=1)
+    print(f" === bf val shape: { bf_train_val.shape }")
     
     return bf_train_val
 
