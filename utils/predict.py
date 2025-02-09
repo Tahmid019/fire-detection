@@ -14,5 +14,8 @@ def predict_image(imagep):
     features = pp.xception_bg(imagep)
     print(f" === features shape: { features.shape }")
     
+    features = np.expand_dims(features, axis=(1, 2))  # Reshape to (1, 1, 1, 2048)
+    print(f"Reshaped features shape: {features.shape}")
+    
     prediction = np.argmax(model.predict(features), axis=1)
     return prediction
